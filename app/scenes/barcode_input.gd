@@ -10,9 +10,16 @@ func _ready():
 func _on_text_changed():
 	# Check if the last character is a newline character
 	if text.ends_with("\n"):
-		# Clear the TextEdit
+		# 
 		print(self.text)
+		# Make queue of book record
+		# Add to database
+		# Once its in the database, search ISBN or kinokuniya for the record data and display? or put into database
+		
+		# Clear the TextEdit
 		clear()
+		
+		
 
 func _process(delta):
 	pass
