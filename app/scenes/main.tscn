@@ -25,15 +25,9 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 45
 placeholder_text = "Start typing to enter barcode!"
-context_menu_enabled = false
-shortcut_keys_enabled = false
-selecting_enabled = false
-deselect_on_focus_loss_enabled = false
-drag_and_drop_selection_enabled = false
-virtual_keyboard_enabled = false
-middle_mouse_paste_enabled = false
-scroll_fit_content_height = true
 caret_type = 1
 caret_move_on_right_click = false
 caret_multiple = false
 script = ExtResource("1_qh4u6")
+
+[connection signal="text_changed" from="CanvasLayer/VBoxContainer/Barcode Input" to="CanvasLayer/VBoxContainer/Barcode Input" method="_on_text_changed"]
