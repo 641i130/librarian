@@ -1,14 +1,44 @@
-[gd_scene load_steps=2 format=3 uid="uid://c3xv8iwxis5wq"]
+[gd_scene load_steps=3 format=3 uid="uid://c3xv8iwxis5wq"]
 
-[ext_resource type="Texture2D" uid="uid://blg3qievqsl0x" path="res://icon.svg" id="1_u7awo"]
+[ext_resource type="Theme" uid="uid://dvbprdl2chc60" path="res://scenes/new_theme.tres" id="1_34dv6"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_q6pnw"]
+load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
 
 [node name="Book Record" type="HFlowContainer"]
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 31.0
 grow_horizontal = 2
+theme = ExtResource("1_34dv6")
 
-[node name="Button" type="Button" parent="."]
+[node name="Box" type="HBoxContainer" parent="."]
 layout_mode = 2
-text = "Book Button to ISBN page"
-icon = ExtResource("1_u7awo")
+size_flags_horizontal = 3
+
+[node name="Info" type="VBoxContainer" parent="Box"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Box/Info"]
+layout_mode = 2
+text = "Title"
+
+[node name="Author" type="Label" parent="Box/Info"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Author"
+
+[node name="Count" type="Label" parent="Box/Info"]
+layout_mode = 2
+text = "Count: 1"
+
+[node name="Barcode" type="Label" parent="Box/Info"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "123456789"
+horizontal_alignment = 1
+
+[node name="IMG" type="TextureButton" parent="."]
+layout_mode = 2
+texture_normal = SubResource("CompressedTexture2D_q6pnw")
+stretch_mode = 3
