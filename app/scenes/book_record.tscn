@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3xv8iwxis5wq"]
+
+[ext_resource type="Texture2D" uid="uid://blg3qievqsl0x" path="res://icon.svg" id="1_u7awo"]
+
+[node name="Book Record" type="HFlowContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 31.0
+grow_horizontal = 2
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+text = "Book Button to ISBN page"
+icon = ExtResource("1_u7awo")
