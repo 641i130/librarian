@@ -1,10 +1,5 @@
 extends TextEdit
 
-
-# Called when the node enters the scene tree for the first time.
-
-var book = preload("res://scenes/book_record.tscn")
-
 func _ready():
 	# Connect the text_changed signal to the _on_text_changed function
 	self.grab_focus()
@@ -31,8 +26,9 @@ func _on_text_changed():
 		print(self.text)
 		save(self.text)
 		# Make queue of book record
-		var n = get_node("/root/Main/CanvasLayer/ScrollBox/List")
-		n.add_child(book.instantiate())
+		var book = load("res://scenes/book_record.tscn").instantiate()
+		book.get_node("Button").text = self.text
+		get_node("/root/Main/CanvasLayer/ScrollBox/List").add_child(book)
 		# Add to database
 		# Once its in the database, search ISBN or kinokuniya for the record data and display? or put into database
 		
