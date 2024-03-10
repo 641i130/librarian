@@ -2,48 +2,52 @@ extends TextEdit
 
 # Import the Book class
 const Book = preload("res://scenes/Book.gd")
-var books = [] # Array of books
+
+
+var books = [] # GLOBAL Array of books
 
 func _ready():
 	# Connect the text_changed signal to the _on_text_changed function
 	self.grab_focus()
-	# TODO
-	# LOAD BOOKS BACK IN FROM THE SAVE FILE
+	load_books()
 
 # Save function
-func save_books(books: Array) -> void:
-	var file = FileAccess.open("user://data.csv", FileAccess.WRITE | FileAccess.READ)
-	if file != null:
-		# Serialize each book and save to file
-		for book in books:
-			var serialized_book = {
-				"title": book.title,
-				"author": book.author,
-				"barcode": book.barcode,
-				"count": book.count
-			}
-			file.store_line(to_json(serialized_book))
-		file.close()
+func save_books() -> void:
+	var file = FileAccess.open("user://data.csv", FileAccess.WRITE)
+	# Serialize each book and save to file
+	for book in books:
+		var serialized_book = {
+			"title": book.title,
+			"author": book.author,
+			"barcode": book.barcode,
+			"count": book.count
+		}
+		file.store_line(JSON.stringify(serialized_book))
+	file.close()
 
 # Load function
 # Get load and save functions to save list of books, then work on book lookups using get requests and HTML parsing...
 func load_books() -> Array:
-	var books = []
 	var file = FileAccess.open("user://data.csv", FileAccess.READ)
 	if file:
 		while not file.eof_reached():
-			var line = file.get_line()
-			if line.strip_edges() != ""systey :
-				# Deserialize each line and create Book object
-				var serialized_book = parse_json(line)
-				var book = Book.new()
-				book.title = serialized_book["title"]
-				book.author = serialized_book["author"]
-				book.year = serialized_book["year"]
+			var line = file.get_line().strip_edges()
+			var json = JSON.new()
+			var error = json.parse(line)
+			if error == OK:
+				var data_out = json.data
+				
+				var book = Book.new(data_out["barcode"])
+				book.title = data_out["title"]
+				book.author = data_out["author"]
+				book.barcode = data_out["barcode"]
+				book.count = data_out["count"]
 				books.append(book)
+				get_node("/root/Main/CanvasLayer/ScrollBox/List").add_child(book.draw())
+			else:
+				print("JSON Parse Error: ", json.get_error_message(), " in ", line, " at line ", json.get_error_line())
 		file.close()
 	return books
-
 
 func spawn_book(code):
 	"Spawns a book record"
@@ -51,14 +55,22 @@ func spawn_book(code):
 	if code != "":
 		# Update or create book
 		# check if book in list
+		var dupe_check = 0
 		for book in books:
+			print("checking", book)
 			if code == book.barcode:
+				print("duplicate!")
 				book.count+=1
 				book.update_count()
+				save_books()
+				dupe_check = 1
 				return
-		var booker = Book.new(code)
-		books.append(booker)
-		get_node("/root/Main/CanvasLayer/ScrollBox/List").add_child(booker.draw())
+		if dupe_check == 0:
+			var booker = Book.new(code)
+			books.append(booker)
+			save_books()
+			get_node("/root/Main/CanvasLayer/ScrollBox/List").add_child(booker.draw())
+			
 
 func _on_text_changed():
 	# Check if the last character is a newline character
