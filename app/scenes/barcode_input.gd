@@ -1,9 +1,4 @@
 extends TextEdit
-
-# Import the Book class
-const Book = preload("res://scenes/Book.gd")
-
-
 var books = [] # GLOBAL Array of books
 
 func _ready():
@@ -36,7 +31,6 @@ func load_books():
 			var error = json.parse(line)
 			if error == OK:
 				var data_out = json.data
-				
 				var book = Book.new(data_out["barcode"])
 				book.title = data_out["title"]
 				book.author = data_out["author"]
@@ -44,8 +38,6 @@ func load_books():
 				book.count = data_out["count"]
 				books.append(book)
 				get_node("/root/Main/CanvasLayer/ScrollBox/List").add_child(book.draw())
-			else:
-				print("JSON Parse Error: ", json.get_error_message(), " in ", line, " at line ", json.get_error_line())
 
 func spawn_book(code):
 	"Spawns a book record"

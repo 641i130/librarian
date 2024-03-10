@@ -3,9 +3,13 @@ extends Node
 class_name Book
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
 
+@onready var http_request = $HTTPRequest
+func _ready():
+	http_request.request("http://127.0.0.1:5000/isbn")
+
+func _on_http_request_request_completed(result, response_code, headers, body):
+	print(body.get_string_from_utf8())
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -17,7 +21,6 @@ var author: String
 var barcode: String
 var count: int = 1
 var book = load("res://scenes/book_record.tscn")
-
 
 # Constructor
 func _init(barcode: String) -> void:
