@@ -1,55 +1,41 @@
 extends TextEdit
 
+# Import the Book class
+const Book = preload("res://scenes/Book.gd")
+var books = [] # Array of books
+
 func _ready():
 	# Connect the text_changed signal to the _on_text_changed function
 	self.grab_focus()
-	for book in data_load():
-		# Should read in other things besides code
-		spawn_book(book[0]) # Use string instead of array
+	# TODO
+	# LOAD BOOKS BACK IN FROM THE SAVE FILE
 
-func save(content):
-	var file = FileAccess.open("user://data.csv", FileAccess.WRITE | FileAccess.READ)
-	if file != null:
-		file.seek_end()
-		file.store_string(content)
-		file.close()
-	else:
-		file = FileAccess.open("user://data.csv", FileAccess.WRITE)
-		file.store_string(content)
-		file.close()
+func save(content,count):
+	pass
 
 func data_load():
-	var file = FileAccess.open("user://data.csv", FileAccess.WRITE | FileAccess.READ)
-	if file != null:
-		var books = []
-		while !file.eof_reached():
-			var line = file.get_csv_line()
-			print(line)
-			books.append(line)
-		return books
-	else:
-		return []
-	
+	pass
 
 func spawn_book(code):
 	"Spawns a book record"
 	code = code.replace("\n","")
 	if code != "":
-		var book = load("res://scenes/book_record.tscn").instantiate()
-		book.get_node("Box/Info/Barcode").text = code
-		# Using the code we should retrieve other info about book and import
-		# We can add toggles for specific book engines later
-		book.get_node("Box/Info/Title").text = "Title: "
-		book.get_node("Box/Info/Author").text = "Author: "
-		book.get_node("Box/Info/Count").text = "Count: 1"
-		get_node("/root/Main/CanvasLayer/ScrollBox/List").add_child(book)
+		# Update or create book
+		# check if book in list
+		for book in books:
+			if code == book.barcode:
+				book.count+=1
+				book.update_count()
+				return
+		var booker = Book.new(code)
+		books.append(booker)
+		get_node("/root/Main/CanvasLayer/ScrollBox/List").add_child(booker.draw())
 
 func _on_text_changed():
 	# Check if the last character is a newline character
 	if text.ends_with("\n"):
 		# Make queue of book record
 		spawn_book(self.text)
-		save(self.text)
 		# Clear the TextEdit
 		clear()
 
