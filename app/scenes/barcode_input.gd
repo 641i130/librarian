@@ -10,11 +10,40 @@ func _ready():
 	# TODO
 	# LOAD BOOKS BACK IN FROM THE SAVE FILE
 
-func save(content,count):
-	pass
+# Save function
+func save_books(books: Array) -> void:
+	var file = FileAccess.open("user://data.csv", FileAccess.WRITE | FileAccess.READ)
+	if file != null:
+		# Serialize each book and save to file
+		for book in books:
+			var serialized_book = {
+				"title": book.title,
+				"author": book.author,
+				"barcode": book.barcode,
+				"count": book.count
+			}
+			file.store_line(to_json(serialized_book))
+		file.close()
 
-func data_load():
-	pass
+# Load function
+# Get load and save functions to save list of books, then work on book lookups using get requests and HTML parsing...
+func load_books() -> Array:
+	var books = []
+	var file = FileAccess.open("user://data.csv", FileAccess.READ)
+	if file:
+		while not file.eof_reached():
+			var line = file.get_line()
+			if line.strip_edges() != ""systey :
+				# Deserialize each line and create Book object
+				var serialized_book = parse_json(line)
+				var book = Book.new()
+				book.title = serialized_book["title"]
+				book.author = serialized_book["author"]
+				book.year = serialized_book["year"]
+				books.append(book)
+		file.close()
+	return books
+
 
 func spawn_book(code):
 	"Spawns a book record"
