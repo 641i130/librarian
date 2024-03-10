@@ -27,7 +27,7 @@ func save_books() -> void:
 
 # Load function
 # Get load and save functions to save list of books, then work on book lookups using get requests and HTML parsing...
-func load_books() -> Array:
+func load_books():
 	var file = FileAccess.open("user://data.csv", FileAccess.READ)
 	if file:
 		while not file.eof_reached():
@@ -46,8 +46,6 @@ func load_books() -> Array:
 				get_node("/root/Main/CanvasLayer/ScrollBox/List").add_child(book.draw())
 			else:
 				print("JSON Parse Error: ", json.get_error_message(), " in ", line, " at line ", json.get_error_line())
-		file.close()
-	return books
 
 func spawn_book(code):
 	"Spawns a book record"
