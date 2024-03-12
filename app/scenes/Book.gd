@@ -28,4 +28,4 @@ func draw():
 	book.get_node("Box/Info/Title").text = "Title: "
 	book.get_node("Box/Info/Author").text = "Author: "
 	book.get_node("Box/Info/Count").text = str(self.count)
-	return book
+	return book # Once this is returned the object then calls its _ready and we can call the get request
