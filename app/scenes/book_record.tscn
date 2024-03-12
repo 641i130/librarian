@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c3xv8iwxis5wq"]
 
 [ext_resource type="Theme" uid="uid://dvbprdl2chc60" path="res://scenes/new_theme.tres" id="1_34dv6"]
-[ext_resource type="Script" path="res://scenes/Book.gd" id="2_r5aqx"]
+[ext_resource type="Script" path="res://scenes/book_record.gd" id="2_cnjry"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_q6pnw"]
 load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
@@ -12,7 +12,7 @@ anchor_right = 1.0
 offset_bottom = 31.0
 grow_horizontal = 2
 theme = ExtResource("1_34dv6")
-script = ExtResource("2_r5aqx")
+script = ExtResource("2_cnjry")
 
 [node name="Box" type="HBoxContainer" parent="."]
 layout_mode = 2
