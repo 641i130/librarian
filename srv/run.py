@@ -13,11 +13,11 @@ book_data = {
 
 @app.route('/isbn', methods=['POST'])
 def get_book_details():
-    print(request.args)
-    isbn = request.args.get('barcode')
-    print(isbn)
-    if isbn in book_data:
-        return jsonify(book_data[isbn])
+    data = request.get_json()
+    barcode = data.get('barcode')
+    
+    if barcode in book_data:
+        return jsonify(book_data[barcode])
     else:
         return jsonify({"error": "Not found"}), 404
 

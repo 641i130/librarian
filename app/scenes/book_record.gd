@@ -26,7 +26,7 @@ func _on_http_request_request_completed(result, response_code, headers, body):
 	var error = json.parse(resp)
 	if error == OK && response_code != 404:
 		print("Not 404")
-		var data_out = json.data.get($Box/Info/Barcode.text)
+		var data_out = json.data
 		print(data_out)
 		$Box/Info/Title.text = "Title: "+data_out["title"]
 		$Box/Info/Author.text = "Author: "+data_out["author"]
