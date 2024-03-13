@@ -34,7 +34,9 @@ func _img_http_request_completed(result, response_code, headers, body):
 	var error = image.load_jpg_from_buffer(body)
 	if error != OK:
 		push_error("Couldn't load the image.")
-	$IMG.set_texture_normal(ImageTexture.create_from_image(image))
+	var tex = ImageTexture.create_from_image(image)
+	tex.set_size_override(Vector2(128,128))
+	$IMG.set_texture_normal(tex)
 
 
 func _on_http_request_request_completed(result, response_code, headers, body):
