@@ -37,6 +37,7 @@ func _img_http_request_completed(result, response_code, headers, body):
 	var tex = ImageTexture.create_from_image(image)
 	tex.set_size_override(Vector2(128,128))
 	$IMG.set_texture_normal(tex)
+	$IMG.set_texture_hover(ImageTexture.create_from_image(image))
 
 
 func _on_http_request_request_completed(result, response_code, headers, body):
