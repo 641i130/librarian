@@ -28,7 +28,7 @@ func img(url):
 	if error != OK:
 		push_error("An error occurred in the HTTP request.")
 
-# Called when the img HTTP request is completed.
+cd # Called when the img HTTP request is completed.
 func _img_http_request_completed(result, response_code, headers, body):
 	var image = Image.new()
 	var error = image.load_jpg_from_buffer(body)
