@@ -15,7 +15,8 @@ func _ready():
 	var json = JSON.stringify(serialized_code)
 	var headers = ["Content-Type: application/json"]
 	print(json)
-	http_request.request("http://127.0.0.1:5000/isbn", headers, HTTPClient.METHOD_POST, json)
+	if $Box/Info/Title.text == "Title: ":
+		http_request.request("http://127.0.0.1:5000/isbn", headers, HTTPClient.METHOD_POST, json)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,7 +29,7 @@ func img(url):
 	if error != OK:
 		push_error("An error occurred in the HTTP request.")
 
-cd # Called when the img HTTP request is completed.
+# Called when the img HTTP request is completed.
 func _img_http_request_completed(result, response_code, headers, body):
 	var image = Image.new()
 	var error = image.load_jpg_from_buffer(body)
