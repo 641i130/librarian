@@ -3,6 +3,10 @@ import requests
 
 app = Flask(__name__)
 
+# Free api image search heh
+# first 5 of ISBN first 8 of isbn then isbn
+# https://bci.kinokuniya.com/jsp/images/book-img/97848/97848322/9784832270725.JPG
+
 def isbn_lookup(isbn):
     "Searching isbn requst to pull information"
     url = "https://openlibrary.org/search.json?q=" + str(isbn)

@@ -4,6 +4,9 @@ extends HFlowContainer
 @onready var http_request = $HTTPRequest
 @onready var img_http_request = HTTPRequest.new()
 # Called when the node enters the scene tree for the first time.
+
+var img_url = ""
+
 func _ready():
 	# Setup image pull 
 	add_child(img_http_request)
@@ -33,12 +36,11 @@ func img(url):
 func _img_http_request_completed(result, response_code, headers, body):
 	var image = Image.new()
 	var error = image.load_jpg_from_buffer(body)
-	if error != OK:
-		push_error("Couldn't load the image.")
-	var tex = ImageTexture.create_from_image(image)
-	tex.set_size_override(Vector2(128,128))
-	$IMG.set_texture_normal(tex)
-	$IMG.set_texture_hover(ImageTexture.create_from_image(image))
+	if error == OK:
+		var tex = ImageTexture.create_from_image(image)
+		tex.set_size_override(Vector2(128,128))
+		$IMG.set_texture_normal(tex)
+		$IMG.set_texture_hover(ImageTexture.create_from_image(image))
 
 
 func _on_http_request_request_completed(result, response_code, headers, body):
@@ -51,4 +53,4 @@ func _on_http_request_request_completed(result, response_code, headers, body):
 		print(data_out)
 		$Box/Info/Title.text = "Title: "+data_out["title"]
 		$Box/Info/Author.text = "Author: "+data_out["author"]
-		img(data_out["image_url"])
+		img_url = img(data_out["image_url"])

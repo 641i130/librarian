@@ -8,15 +8,11 @@ func _ready():
 
 # Save function
 func save_books() -> void:
+	print("SAVING")
 	var file = FileAccess.open("user://data.csv", FileAccess.WRITE)
 	# Serialize each book and save to file
 	for book in books:
-		var serialized_book = {
-			"title": book.title,
-			"author": book.author,
-			"barcode": book.barcode,
-			"count": book.count
-		}
+		var serialized_book = book.out()
 		file.store_line(JSON.stringify(serialized_book))
 	file.close()
 
@@ -36,6 +32,7 @@ func load_books():
 				book.author = data_out["author"]
 				book.barcode = data_out["barcode"]
 				book.count = data_out["count"]
+				book.url = data_out["url"]
 				books.append(book)
 				get_node("/root/Main/CanvasLayer/ScrollBox/List").add_child(book.draw())
 
@@ -69,6 +66,15 @@ func _on_text_changed():
 		spawn_book(self.text)
 		# Clear the TextEdit
 		clear()
-
+		
 func _process(delta):
-	pass
+	if Input.is_action_just_pressed("exit_game"):
+		on_exit_game_pressed()
+
+func on_exit_game_pressed():
+	# Perform any necessary actions here before closing the game
+	save_books()
+	# After performing necessary actions, close the game
+	get_tree().quit()
+
+

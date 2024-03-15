@@ -46,5 +46,6 @@ texture_normal = ExtResource("3_c0qat")
 stretch_mode = 3
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
+use_threads = true
 
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]

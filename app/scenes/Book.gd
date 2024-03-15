@@ -6,6 +6,7 @@ class_name Book
 var title: String
 var author: String
 var barcode: String
+var url: String
 var count: int = 1
 var book = load("res://scenes/book_record.tscn")
 
@@ -13,9 +14,20 @@ var book = load("res://scenes/book_record.tscn")
 func _init(barcode: String) -> void:
 	self.title = ""
 	self.author = ""
+	self.url = ""
 	self.barcode = barcode
 	self.count = 1
-	
+
+# Returns book in json format
+func out():
+	return {
+			"title": book.get_node("Box/Info/Title").text,
+			"author": book.get_node("Box/Info/Author").text,
+			"barcode": book.get_node("Box/Info/Barcode").text,
+			"count": self.count,
+			"url": self.url,
+		}
+
 func update_count():
 	book.get_node("Box/Info/Count").text = str(self.count)
 
