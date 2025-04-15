@@ -38,9 +38,8 @@ func _img_http_request_completed(result, response_code, headers, body):
 	var error = image.load_jpg_from_buffer(body)
 	if error == OK:
 		var tex = ImageTexture.create_from_image(image)
-		tex.set_size_override(Vector2(128,128))
+		tex.set_size_override(Vector2(image.get_width()*0.33,image.get_height()*0.33))
 		$IMG.set_texture_normal(tex)
-		$IMG.set_texture_hover(ImageTexture.create_from_image(image))
 
 
 func _on_http_request_request_completed(result, response_code, headers, body):
@@ -53,4 +52,4 @@ func _on_http_request_request_completed(result, response_code, headers, body):
 		print(data_out)
 		$Box/Info/Title.text = "Title: "+data_out["title"]
 		$Box/Info/Author.text = "Author: "+data_out["author"]
-		img_url = img(data_out["image_url"])
+		img_url = img(data_out["image_url"]) # GET THIS URL BACK TO THE BOOK OBJECT SO IT CAN SAVE IT (or better, save the file here...)
